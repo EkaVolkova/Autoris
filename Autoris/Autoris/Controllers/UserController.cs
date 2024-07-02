@@ -9,15 +9,16 @@ namespace Autoris.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
+        ILogger _logger;
         /// <summary>
         /// Конструктор класса UserController
         /// </summary>
-        public UserController()
+        public UserController(ILogger logger)
         {
-            var logger = new Logger();
+            _logger = logger;
 
-            logger.WriteEvent("Сообщение о событии в программе");
-            logger.WriteError("Сообщение об ошибки в программе");
+            _logger.WriteEvent("Сообщение о событии в программе");
+            _logger.WriteError("Сообщение об ошибки в программе");
 
         }
 

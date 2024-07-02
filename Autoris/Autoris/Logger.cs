@@ -8,7 +8,7 @@ namespace Autoris
     /// <summary>
     /// Класс для логирования событий
     /// </summary>
-    public class Logger
+    public class Logger : ILogger
     {
         /// <summary>
         /// Логирует ошибку в консоль
