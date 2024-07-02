@@ -11,12 +11,38 @@ namespace Autoris
     public class Logger
     {
         /// <summary>
+        /// Логирует ошибку в консоль
+        /// </summary>
+        private void WriteErrorConsole(string eventMessage)
+        {
+            Console.BackgroundColor = ConsoleColor.Red;
+            Console.WriteLine("Error");
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.WriteLine($"\t[{DateTime.UtcNow}] {eventMessage}");
+        }
+
+        /// <summary>
+        /// Логирует событие в консоль
+        /// </summary>
+        /// <param name="eventMessage"></param>
+        private void WriteEventConsole(string eventMessage)
+        {
+            Console.BackgroundColor = ConsoleColor.Green;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.WriteLine("Event");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.WriteLine($"\t[{DateTime.UtcNow}] {eventMessage}");
+        }
+
+        /// <summary>
         /// Логирует событие
         /// </summary>
         /// <param name="eventMessage"></param>
         public void WriteEvent(string eventMessage)
         {
-            Console.WriteLine($"[{DateTime.UtcNow}] Event: {eventMessage}");
+
+            WriteEventConsole(eventMessage);
         }
 
         /// <summary>
@@ -25,7 +51,7 @@ namespace Autoris
         /// <param name="errorMessage"></param>
         public void WriteError(string errorMessage)
         {
-            Console.WriteLine($"[{DateTime.UtcNow}] Error: {errorMessage}");
+            WriteErrorConsole(errorMessage);
         }
 
 
