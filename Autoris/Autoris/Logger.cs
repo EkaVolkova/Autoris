@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autoris.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,26 +29,26 @@ namespace Autoris
         /// <summary>
         /// Логирует ошибку в консоль
         /// </summary>
-        private void WriteErrorConsole(string eventMessage)
+        private void WriteErrorConsole(Error eventMessage)
         {
             Console.BackgroundColor = ConsoleColor.Red;
             Console.WriteLine("Error");
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.WriteLine($"\t[{DateTime.UtcNow}] {eventMessage}");
+            Console.WriteLine($"\t{eventMessage}");
         }
 
         /// <summary>
         /// Логирует событие в консоль
         /// </summary>
         /// <param name="eventMessage"></param>
-        private void WriteEventConsole(string eventMessage)
+        private void WriteEventConsole(Event eventMessage)
         {
             Console.BackgroundColor = ConsoleColor.Green;
             Console.ForegroundColor = ConsoleColor.Black;
             Console.WriteLine("Event");
             Console.ForegroundColor = ConsoleColor.White;
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.WriteLine($"\t[{DateTime.UtcNow}] {eventMessage}");
+            Console.WriteLine($"\t{eventMessage}");
         }
 
         /// <summary>
@@ -55,13 +56,12 @@ namespace Autoris
         /// </summary>
         /// <param name="eventMessage"></param>
         /// <returns></returns>
-        private async Task WriteEventFileAsync(string eventMessage)
+        private async Task WriteEventFileAsync(Event eventMessage)
         {
             // Для логирования данных о запросе используем свойста объекта HttpContext
-            string logMessage = $"[{DateTime.UtcNow}] Event: {eventMessage}\r\n";
             string logFilePath = Path.Combine(saveDir, "Event.txt");
 
-            await File.AppendAllTextAsync(logFilePath, logMessage);
+            await File.AppendAllTextAsync(logFilePath, eventMessage.ToString());
         }
 
         /// <summary>
@@ -69,13 +69,12 @@ namespace Autoris
         /// </summary>
         /// <param name="errorMessage"></param>
         /// <returns></returns>
-        private async Task WriteErrorFileAsync(string errorMessage)
+        private async Task WriteErrorFileAsync(Error errorMessage)
         {
             // Для логирования данных о запросе используем свойста объекта HttpContext
-            string logMessage = $"[{DateTime.UtcNow}] Error: {errorMessage}\r\n";
             string logFilePath = Path.Combine(saveDir, "Error.txt");
 
-            await File.AppendAllTextAsync(logFilePath, logMessage);
+            await File.AppendAllTextAsync(logFilePath, errorMessage.ToString());
         }
 
 
@@ -84,7 +83,7 @@ namespace Autoris
         /// Логирует событие
         /// </summary>
         /// <param name="eventMessage"></param>
-        public async void WriteEvent(string eventMessage)
+        public async void WriteEvent(Event eventMessage)
         {
             
             WriteEventConsole(eventMessage);
@@ -95,7 +94,7 @@ namespace Autoris
         /// Логирует ошибку
         /// </summary>
         /// <param name="errorMessage"></param>
-        public async void WriteError(string errorMessage)
+        public async void WriteError(Error errorMessage)
         {
             WriteErrorConsole(errorMessage);
             await WriteErrorFileAsync(errorMessage);

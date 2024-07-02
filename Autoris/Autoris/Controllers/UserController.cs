@@ -17,8 +17,8 @@ namespace Autoris.Controllers
         {
             _logger = logger;
 
-            _logger.WriteEvent("Сообщение о событии в программе");
-            _logger.WriteError("Сообщение об ошибки в программе");
+            _logger.WriteEvent(new Event("Сообщение о событии в программе"));
+            _logger.WriteError(new Error("Сообщение об ошибке в программе"));
 
         }
 
