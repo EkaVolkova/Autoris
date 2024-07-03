@@ -1,9 +1,12 @@
 using AutoMapper;
 using Autoris.Mapping;
+using Autoris.Models.Db;
+using Autoris.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -36,6 +39,9 @@ namespace Autoris
 
             services.AddSingleton(mapper);
             services.AddSingleton<ILogger, Logger>();
+            string connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<UserContext>(options => options.UseSqlServer(connection), ServiceLifetime.Singleton);
+            services.AddSingleton<IUserRepository, UserRepository>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
