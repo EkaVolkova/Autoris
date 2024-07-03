@@ -39,5 +39,10 @@ namespace Autoris.Models.Db
         /// E-mail адрес пользователя
         /// </summary>
         public string Email { get; set; }
+
+        /// <summary>
+        /// Роль пользователя
+        /// </summary>
+        public Role Role { get; set; }
     }
 }
