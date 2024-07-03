@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Autoris.Models;
+using Autoris.Models.Db;
 using Autoris.ViewModels;
 using System;
 using System.Collections.Generic;
