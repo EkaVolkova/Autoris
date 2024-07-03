@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Autoris
@@ -12,7 +13,8 @@ namespace Autoris
     /// </summary>
     public class Logger : ILogger
     {
-        private string saveDir;
+        private readonly string saveDir;
+        private ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
 
         /// <summary>
         /// Конструктор класса логирования
@@ -56,12 +58,25 @@ namespace Autoris
         /// </summary>
         /// <param name="eventMessage"></param>
         /// <returns></returns>
-        private async Task WriteEventFileAsync(Event eventMessage)
+        private void WriteEventFileAsync(Event eventMessage)
         {
-            // Для логирования данных о запросе используем свойста объекта HttpContext
+            _lock.EnterWriteLock();
             string logFilePath = Path.Combine(saveDir, "Event.txt");
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(logFilePath, append: true))
+                {
+                    writer.WriteLine(eventMessage);
 
-            await File.AppendAllTextAsync(logFilePath, eventMessage.ToString());
+                }
+            }
+            finally
+            {
+                _lock.ExitWriteLock();
+
+            }
+
+
         }
 
         /// <summary>
@@ -69,12 +84,24 @@ namespace Autoris
         /// </summary>
         /// <param name="errorMessage"></param>
         /// <returns></returns>
-        private async Task WriteErrorFileAsync(Error errorMessage)
+        private void WriteErrorFileAsync(Error errorMessage)
         {
-            // Для логирования данных о запросе используем свойста объекта HttpContext
+            _lock.EnterWriteLock();
             string logFilePath = Path.Combine(saveDir, "Error.txt");
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(logFilePath, append: true))
+                {
+                    writer.WriteLine(errorMessage);
 
-            await File.AppendAllTextAsync(logFilePath, errorMessage.ToString());
+                }
+            }
+            finally
+            {
+                _lock.ExitWriteLock();
+
+            }
+
         }
 
 
@@ -83,21 +110,21 @@ namespace Autoris
         /// Логирует событие
         /// </summary>
         /// <param name="eventMessage"></param>
-        public async void WriteEvent(Event eventMessage)
+        public void WriteEvent(Event eventMessage)
         {
             
             WriteEventConsole(eventMessage);
-            await WriteEventFileAsync(eventMessage);
+            WriteEventFileAsync(eventMessage);
         }
 
         /// <summary>
         /// Логирует ошибку
         /// </summary>
         /// <param name="errorMessage"></param>
-        public async void WriteError(Error errorMessage)
+        public void WriteError(Error errorMessage)
         {
             WriteErrorConsole(errorMessage);
-            await WriteErrorFileAsync(errorMessage);
+            WriteErrorFileAsync(errorMessage);
         }
 
 
