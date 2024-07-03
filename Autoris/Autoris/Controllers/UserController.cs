@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Autoris.Models;
+using Autoris.Models.Db;
 using Autoris.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
