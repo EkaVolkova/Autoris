@@ -1,4 +1,5 @@
-﻿using Autoris.Models;
+﻿using AutoMapper;
+using Autoris.Models;
 using Autoris.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,13 +12,15 @@ namespace Autoris.Controllers
     public class UserController : ControllerBase
     {
         ILogger _logger;
+        IMapper _mapper;
+
         /// <summary>
         /// Конструктор класса UserController
         /// </summary>
-        public UserController(ILogger logger)
+        public UserController(ILogger logger, IMapper mapper)
         {
             _logger = logger;
-
+            _mapper = mapper;
             _logger.WriteEvent(new Event("Сообщение о событии в программе"));
             _logger.WriteError(new Error("Сообщение об ошибке в программе"));
 
@@ -51,7 +54,7 @@ namespace Autoris.Controllers
                 Login = "ivanov"
             };
 
-            UserViewModel userViewModel = new UserViewModel(user);
+            var userViewModel = _mapper.Map<UserViewModel>(user);
 
             return userViewModel;
         }
