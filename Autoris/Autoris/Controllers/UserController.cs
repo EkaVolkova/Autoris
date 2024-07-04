@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Autoris.Exstensions;
 using Autoris.Models;
 using Autoris.Models.Db;
 using Autoris.Repositories;
@@ -9,8 +10,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Authentication;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Autoris.Controllers
@@ -23,25 +26,45 @@ namespace Autoris.Controllers
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
+        private readonly IRoleRepository _roleRepository;
 
         /// <summary>
         /// Конструктор класса UserController
         /// </summary>
-        public UserController(ILogger logger, IMapper mapper, IUserRepository  userRepository)
+        public UserController(ILogger logger, IMapper mapper, IUserRepository  userRepository, IRoleRepository roleRepository)
         {
             _logger = logger;
             _mapper = mapper;
             _userRepository = userRepository;
-
+            _roleRepository = roleRepository;
             _logger.WriteEvent(new Event("Сообщение о событии в программе"));
             _logger.WriteError(new Error("Сообщение об ошибке в программе"));
 
         }
 
+        [HttpPost]
+        [Route("Roles")]
+        public async void AddRole(string name)
+        {
+            if(_roleRepository.GetRole(name) != null)
+                throw new AddRoleExtensions("Роль с таким именем уже существует");
+
+
+            var role = new Role { Name = name };
+            await _roleRepository.AddRole(role);
+        }
 
         [HttpPost]
-        public void AddUser(string name, string lastName, string login, string password, string email)
+        public async void AddUser(string name, string lastName, string login, string password, string email, string roleName)
         {
+            var role = _roleRepository.GetRole(roleName);
+            if (role == null)
+            {
+                throw new ArgumentException("Роли с таким именем не существует");
+            }
+
+            
+
             var user = new User
             {
                 Id = Guid.NewGuid(),
@@ -49,10 +72,11 @@ namespace Autoris.Controllers
                 LastName = lastName,
                 Login = login,
                 Password = password,
-                Email = email
+                Email = email,
+                Role = role
             };
 
-            _userRepository.AddUser(user);
+            await _userRepository.AddUser(user);
 
 
         }
@@ -120,6 +144,7 @@ namespace Autoris.Controllers
         [Route("viewmodel")]
         public UserViewModel GetUserViewModel()
         {
+            var _roles = _roleRepository.GetAll();
             User user = new User()
             {
                 Id = Guid.NewGuid(),
@@ -127,7 +152,8 @@ namespace Autoris.Controllers
                 LastName = "Иванов",
                 Email = "ivan@gmail.com",
                 Password = "11111122222qq",
-                Login = "ivanov"
+                Login = "ivanov",
+                Role = _roles.FirstOrDefault()
             };
 
             var userViewModel = _mapper.Map<UserViewModel>(user);

@@ -10,16 +10,19 @@ namespace Autoris.Models.Db
     {
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         // Логика взаимодействия с таблицами в БД
         public UserContext(DbContextOptions<UserContext> options) : base(options)
         {
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<Role>().ToTable("Roles");
         }
     }
 }

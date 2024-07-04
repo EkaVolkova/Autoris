@@ -42,6 +42,7 @@ namespace Autoris
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<UserContext>(options => options.UseSqlServer(connection), ServiceLifetime.Singleton);
             services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<IRoleRepository, RoleRepository>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

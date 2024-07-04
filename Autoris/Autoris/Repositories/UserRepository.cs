@@ -42,7 +42,7 @@ namespace Autoris.Repositories
         /// Добавить пользователя
         /// </summary>
         /// <param name="user">Модель пользователя</param>
-        public async void AddUser(User user)
+        public async Task AddUser(User user)
         {
             // Добавление пользователя
             var entry = _context.Entry(user);

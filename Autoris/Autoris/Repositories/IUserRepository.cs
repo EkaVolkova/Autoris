@@ -25,6 +25,6 @@ namespace Autoris.Repositories
         /// Добавить пользователя
         /// </summary>
         /// <param name="user">Модель пользователя</param>
-        void AddUser(User user);
+        Task AddUser(User user);
     }
 }
