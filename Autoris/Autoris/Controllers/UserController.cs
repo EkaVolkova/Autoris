@@ -107,7 +107,9 @@ namespace Autoris.Controllers
             var claims = new List<Claim>()
             {
                 //Добавляем одно утверждение с типом по умолчанию и логином пользователя
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
+                //Добавляем одно утверждение с типом роли по умолчанию и ролью
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.Name)
             };
 
             //Создали объект класса ClaimsIdentity, который реализует интерфейс IIdentity и представляет текущего пользователя
@@ -139,7 +141,7 @@ namespace Autoris.Controllers
             return _userRepository.GetByLogin(login);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Администратор")]
         [HttpGet]
         [Route("viewmodel")]
         public UserViewModel GetUserViewModel()
