@@ -24,6 +24,8 @@ namespace Autoris.ViewModels
         /// </summary>
         public bool DomenFromRussia { get; set; }
 
+        public string Role { get; set; }
+
         /// <summary>
         /// Конструктор для преобразования модели User в модель UserViewModel
         /// </summary>
@@ -33,6 +35,8 @@ namespace Autoris.ViewModels
             Id = user.Id;
             FullName = GetFullName(user.FirstName, user.LastName);
             DomenFromRussia = GetFromRussiaValue(user.Email);
+            Role = user.Role.Name;
+
 
         }
 
