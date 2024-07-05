@@ -15,7 +15,7 @@ namespace Autoris.Models.Db
         // Логика взаимодействия с таблицами в БД
         public UserContext(DbContextOptions<UserContext> options) : base(options)
         {
-            //Database.EnsureDeleted();
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 

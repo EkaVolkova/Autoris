@@ -41,6 +41,11 @@ namespace Autoris.Models.Db
         public string Email { get; set; }
 
         /// <summary>
+        /// Навигационное свойство id роли пользователя
+        /// </summary>
+        public int RoleId { get; set; }
+
+        /// <summary>
         /// Роль пользователя
         /// </summary>
         public Role Role { get; set; }

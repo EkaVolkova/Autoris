@@ -16,5 +16,10 @@ namespace Autoris.Models.Db
         /// Название роли
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Список всех пользователей с данной ролью
+        /// </summary>
+        public List<User> Users { get; set; }
     }
 }
