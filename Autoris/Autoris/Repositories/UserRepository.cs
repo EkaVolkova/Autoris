@@ -21,7 +21,7 @@ namespace Autoris.Repositories
         /// <returns>Список пользователей</returns>
         public IEnumerable<User> GetAll()
         {
-            return _context.Users;
+            return _context.Users.Include(p => p.Role).ToList();
         }
 
         /// <summary>
@@ -32,9 +32,10 @@ namespace Autoris.Repositories
         public User GetByLogin(string login)
         {
             var users = GetAll();
+            var user = users.Where(u => u.Login == login).ToList().FirstOrDefault();
+            return user;
 
-            return users.Where(u => u.Login == login).ToList().FirstOrDefault();
-            
+
         }
 
 
