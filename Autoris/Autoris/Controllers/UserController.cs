@@ -42,6 +42,11 @@ namespace Autoris.Controllers
 
         }
 
+
+        /// <summary>
+        /// Добавление роли
+        /// </summary>
+        /// <param name="name"></param>
         [HttpPost]
         [Route("Roles")]
         public async void AddRole(string name)
@@ -54,6 +59,15 @@ namespace Autoris.Controllers
             await _roleRepository.AddRole(role);
         }
 
+        /// <summary>
+        /// Добавление пользователя
+        /// </summary>
+        /// <param name="name">имя</param>
+        /// <param name="lastName">фамилия</param>
+        /// <param name="login">логин</param>
+        /// <param name="password">пароль</param>
+        /// <param name="email">Email</param>
+        /// <param name="roleName">Название роли</param>
         [HttpPost]
         public async void AddUser(string name, string lastName, string login, string password, string email, string roleName)
         {
@@ -62,8 +76,6 @@ namespace Autoris.Controllers
             {
                 throw new ArgumentException("Роли с таким именем не существует");
             }
-
-            
 
             var user = new User
             {
@@ -81,6 +93,12 @@ namespace Autoris.Controllers
 
         }
         
+        /// <summary>
+        /// Аутентификация
+        /// </summary>
+        /// <param name="login"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("authenticate")]
         public async Task<UserViewModel> Authenticate(string login, string password)
@@ -127,12 +145,21 @@ namespace Autoris.Controllers
 
         }
 
+        /// <summary>
+        /// Получение списка пользователей
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<User> GetUsers()
         {
             return _userRepository.GetAll();
         }
 
+        /// <summary>
+        /// Получение пользователя по логину
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Администратор")]
         [HttpGet]
         [Route("user")]
