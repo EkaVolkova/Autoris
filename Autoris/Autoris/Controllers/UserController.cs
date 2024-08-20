@@ -133,34 +133,17 @@ namespace Autoris.Controllers
             return _userRepository.GetAll();
         }
 
-
-        [HttpGet]
-        [Route("user")]
-        public User GetUser(string login)
-        {
-            return _userRepository.GetByLogin(login);
-        }
-
         [Authorize(Roles = "Администратор")]
         [HttpGet]
-        [Route("viewmodel")]
-        public UserViewModel GetUserViewModel()
+        [Route("user")]
+        public UserViewModel GetUser(string login)
         {
-            var _roles = _roleRepository.GetAll();
-            User user = new User()
-            {
-                Id = Guid.NewGuid(),
-                FirstName = "Иван",
-                LastName = "Иванов",
-                Email = "ivan@gmail.com",
-                Password = "11111122222qq",
-                Login = "ivanov",
-                Role = _roles.FirstOrDefault()
-            };
-
+            var users = _userRepository.GetAll();
+            var user = users.Where(u => u.Login == login).FirstOrDefault();
             var userViewModel = _mapper.Map<UserViewModel>(user);
 
             return userViewModel;
         }
+
     }
 }
