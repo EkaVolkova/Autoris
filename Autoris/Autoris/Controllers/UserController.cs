@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace Autoris.Controllers
 {
-
+    [ExceptionHandler]
     [ApiController]
     [Route("[controller]")]
     public class UserController : ControllerBase
@@ -37,23 +37,36 @@ namespace Autoris.Controllers
             _mapper = mapper;
             _userRepository = userRepository;
             _roleRepository = roleRepository;
-            _logger.WriteEvent(new Event("Сообщение о событии в программе"));
-            _logger.WriteError(new Error("Сообщение об ошибке в программе"));
 
         }
 
+
+        /// <summary>
+        /// Добавление роли
+        /// </summary>
+        /// <param name="name"></param>
         [HttpPost]
         [Route("Roles")]
         public async void AddRole(string name)
         {
             if(_roleRepository.GetRole(name) != null)
-                throw new AddRoleException("Роль с таким именем уже существует");
+                throw new Exception("Роль с таким именем уже существует");
 
 
             var role = new Role { Name = name };
             await _roleRepository.AddRole(role);
+            _logger.WriteEvent(new Event($"Добавлена роль пользователя: {role}"));
         }
 
+        /// <summary>
+        /// Добавление пользователя
+        /// </summary>
+        /// <param name="name">имя</param>
+        /// <param name="lastName">фамилия</param>
+        /// <param name="login">логин</param>
+        /// <param name="password">пароль</param>
+        /// <param name="email">Email</param>
+        /// <param name="roleName">Название роли</param>
         [HttpPost]
         public async void AddUser(string name, string lastName, string login, string password, string email, string roleName)
         {
@@ -62,8 +75,6 @@ namespace Autoris.Controllers
             {
                 throw new ArgumentException("Роли с таким именем не существует");
             }
-
-            
 
             var user = new User
             {
@@ -77,10 +88,17 @@ namespace Autoris.Controllers
             };
 
             await _userRepository.AddUser(user);
+            _logger.WriteEvent(new Event($"Добавлен пользователь:\r\nИмя: {name}\r\nФамилия: {lastName}\r\nЛогин: {login}"));
 
 
         }
-        
+
+        /// <summary>
+        /// Аутентификация
+        /// </summary>
+        /// <param name="login"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("authenticate")]
         public async Task<UserViewModel> Authenticate(string login, string password)
@@ -121,18 +139,28 @@ namespace Autoris.Controllers
 
             //Добавляем в контекст ClaimsPrincipal для работы с авторизацией, который содержит ClaimsIdentity
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+            _logger.WriteEvent(new Event($"Аутентификация пользователя {login} прошла успешно"));
 
             //Возвращаем ViewModel пользователя
             return _mapper.Map<UserViewModel>(user);
 
         }
 
+        /// <summary>
+        /// Получение списка пользователей
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<User> GetUsers()
         {
             return _userRepository.GetAll();
         }
 
+        /// <summary>
+        /// Получение пользователя по логину
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Администратор")]
         [HttpGet]
         [Route("user")]
@@ -140,8 +168,11 @@ namespace Autoris.Controllers
         {
             var users = _userRepository.GetAll();
             var user = users.Where(u => u.Login == login).FirstOrDefault();
-            var userViewModel = _mapper.Map<UserViewModel>(user);
+            if (user == null)
+                throw new ArgumentException($"Пользователь {login} не найден");
 
+            var userViewModel = _mapper.Map<UserViewModel>(user);
+            _logger.WriteEvent(new Event($"Пользователь {login} найден"));
             return userViewModel;
         }
 
