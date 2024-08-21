@@ -147,16 +147,6 @@ namespace Autoris.Controllers
         }
 
         /// <summary>
-        /// Получение списка пользователей
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public IEnumerable<User> GetUsers()
-        {
-            return _userRepository.GetAll();
-        }
-
-        /// <summary>
         /// Получение пользователя по логину
         /// </summary>
         /// <param name="login"></param>
