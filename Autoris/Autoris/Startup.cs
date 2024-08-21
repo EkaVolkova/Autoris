@@ -1,6 +1,7 @@
 using AutoMapper;
 using Autoris.Exceptions;
 using Autoris.Mapping;
+using Autoris.Middleware;
 using Autoris.Models.Db;
 using Autoris.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -73,6 +74,8 @@ namespace Autoris
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Autoris v1"));
             }
+
+            app.UseLogMiddleware();
 
             app.UseHttpsRedirection();
             
