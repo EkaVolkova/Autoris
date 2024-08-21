@@ -99,7 +99,7 @@ namespace Autoris.Controllers
         /// <param name="login"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpGet]
         [Route("authenticate")]
         public async Task<UserViewModel> Authenticate(string login, string password)
         {
