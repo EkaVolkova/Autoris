@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Autoris.Models.Db
+namespace Autoris.DAL.Model
 {
     public class Role
     {

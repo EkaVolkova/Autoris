@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Autoris.Exceptions
+namespace Autoris.BLL.Exceptions
 {
     /// <summary>
     /// Класс исключений для добавления роли пользователя

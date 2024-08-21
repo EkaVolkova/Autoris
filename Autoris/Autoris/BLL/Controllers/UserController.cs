@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Autoris.Exceptions;
-using Autoris.Models;
-using Autoris.Models.Db;
-using Autoris.Repositories;
-using Autoris.ViewModels;
+using Autoris.BLL.Exceptions;
+using Autoris.DAL.Model;
+using Autoris.DAL.Repositories;
+using Autoris.BLL.Middleware;
+using Autoris.PLL.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -16,7 +16,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Autoris.Controllers
+namespace Autoris.BLL.Controllers
 {
     [ServiceFilter(typeof(ExceptionHandler))]
     [ApiController]

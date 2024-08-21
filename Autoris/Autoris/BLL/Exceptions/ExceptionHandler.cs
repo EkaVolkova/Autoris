@@ -1,5 +1,4 @@
-﻿using Autoris.Models;
-using Microsoft.AspNetCore.Builder;
+﻿using Autoris.BLL.Middleware;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
@@ -7,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Autoris.Exceptions
+namespace Autoris.BLL.Exceptions
 {
     /// <summary>
     /// Класс фильтра исключений

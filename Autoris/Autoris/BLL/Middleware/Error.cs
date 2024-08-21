@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Autoris.Models
+namespace Autoris.BLL.Middleware
 {
     public class Error
     {

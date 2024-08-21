@@ -1,11 +1,11 @@
-﻿using Autoris.Models;
+﻿using Autoris.BLL.Middleware;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Autoris.Middleware
+namespace Autoris.BLL.Middleware
 {
     public class LogMiddleware
     {

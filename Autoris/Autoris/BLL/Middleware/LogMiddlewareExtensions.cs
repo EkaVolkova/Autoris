@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 
-namespace Autoris.Middleware
+namespace Autoris.BLL.Middleware
 {
     public static class LogMiddlewareExtensions
     {

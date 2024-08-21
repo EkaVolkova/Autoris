@@ -1,9 +1,9 @@
 using AutoMapper;
-using Autoris.Exceptions;
-using Autoris.Mapping;
-using Autoris.Middleware;
-using Autoris.Models.Db;
-using Autoris.Repositories;
+using Autoris.BLL.Exceptions;
+using Autoris.PLL;
+using Autoris.BLL.Middleware;
+using Autoris.DAL;
+using Autoris.DAL.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -40,7 +40,7 @@ namespace Autoris
             IMapper mapper = mapperConfig.CreateMapper();
 
             services.AddSingleton(mapper);
-            services.AddSingleton<ILogger, Logger>();
+            services.AddSingleton<BLL.Middleware.ILogger, Logger>();
             services.AddScoped<ExceptionHandler>();
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<UserContext>(options => options.UseSqlServer(connection), ServiceLifetime.Singleton);

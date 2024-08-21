@@ -1,11 +1,11 @@
-﻿using Autoris.Models.Db;
+﻿using Autoris.DAL.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Autoris.Repositories
+namespace Autoris.DAL.Repositories
 {
     public class UserRepository : IUserRepository
     {

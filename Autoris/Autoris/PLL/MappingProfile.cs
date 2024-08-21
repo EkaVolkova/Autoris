@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using Autoris.Models.Db;
-using Autoris.ViewModels;
+using Autoris.DAL.Model;
+using Autoris.PLL.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Autoris.Mapping
+namespace Autoris.PLL
 {
     public class MappingProfile : Profile
     {

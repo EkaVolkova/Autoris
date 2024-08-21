@@ -1,11 +1,11 @@
-﻿using Autoris.Models.Db;
+﻿using Autoris.DAL.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
 
-namespace Autoris.ViewModels
+namespace Autoris.PLL.ViewModels
 {
     public class UserViewModel
     {
