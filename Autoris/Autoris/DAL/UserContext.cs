@@ -16,8 +16,8 @@ namespace Autoris.DAL
         // Логика взаимодействия с таблицами в БД
         public UserContext(DbContextOptions<UserContext> options) : base(options)
         {
-            Database.EnsureDeleted();
             Database.EnsureCreated();
+            //Database.EnsureDeleted();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
