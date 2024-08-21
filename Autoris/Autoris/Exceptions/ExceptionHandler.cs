@@ -1,4 +1,5 @@
 ﻿using Autoris.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
@@ -16,7 +17,11 @@ namespace Autoris.Exceptions
         /// <summary>
         /// Логер
         /// </summary>
-        ILogger _logger = new Logger();
+        ILogger _logger;
+        public ExceptionHandler(ILogger logger)
+        {
+            _logger = logger;
+        }
 
         /// <summary>
         /// Реакция на событие возникновение исключений

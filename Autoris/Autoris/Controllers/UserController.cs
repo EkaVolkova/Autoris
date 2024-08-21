@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace Autoris.Controllers
 {
-    [ExceptionHandler]
+    [ServiceFilter(typeof(ExceptionHandler))]
     [ApiController]
     [Route("[controller]")]
     public class UserController : ControllerBase

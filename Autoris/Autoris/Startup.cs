@@ -1,4 +1,5 @@
 using AutoMapper;
+using Autoris.Exceptions;
 using Autoris.Mapping;
 using Autoris.Models.Db;
 using Autoris.Repositories;
@@ -39,6 +40,7 @@ namespace Autoris
 
             services.AddSingleton(mapper);
             services.AddSingleton<ILogger, Logger>();
+            services.AddScoped<ExceptionHandler>();
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<UserContext>(options => options.UseSqlServer(connection), ServiceLifetime.Singleton);
             services.AddSingleton<IUserRepository, UserRepository>();
