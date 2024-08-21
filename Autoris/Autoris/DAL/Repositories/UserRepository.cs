@@ -19,9 +19,10 @@ namespace Autoris.DAL.Repositories
         /// Получить всех пользователей
         /// </summary>
         /// <returns>Список пользователей</returns>
-        public IEnumerable<User> GetAll()
+        public async Task<IEnumerable<User>> GetAll()
         {
-            return _context.Users.Include(p => p.Role).ToList();
+            return await _context.Users.Include(p => p.Role).ToListAsync();
+            
         }
 
         /// <summary>
@@ -29,9 +30,9 @@ namespace Autoris.DAL.Repositories
         /// </summary>
         /// <param name="login">логин пользователя</param>
         /// <returns>Объект класса User</returns>
-        public User GetByLogin(string login)
+        public async Task<User> GetByLogin(string login)
         {
-            var users = GetAll();
+            var users = await GetAll();
             var user = users.Where(u => u.Login == login).ToList().FirstOrDefault();
             return user;
 

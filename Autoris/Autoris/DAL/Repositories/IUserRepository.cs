@@ -12,14 +12,14 @@ namespace Autoris.DAL.Repositories
         /// Получить всех пользователей
         /// </summary>
         /// <returns>Список пользователей</returns>
-        IEnumerable<User> GetAll();
+        Task<IEnumerable<User>> GetAll();
 
         /// <summary>
         /// Получить пользователя по его логину
         /// </summary>
         /// <param name="login">логин пользователя</param>
         /// <returns>Объект класса User</returns>
-        User GetByLogin(string login);
+        Task<User> GetByLogin(string login);
 
         /// <summary>
         /// Добавить пользователя

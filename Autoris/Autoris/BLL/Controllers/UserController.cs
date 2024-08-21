@@ -47,7 +47,7 @@ namespace Autoris.BLL.Controllers
         /// <param name="name"></param>
         [HttpPost]
         [Route("Roles")]
-        public async void AddRole(string name)
+        public async Task AddRole(string name)
         {
             if(_roleRepository.GetRole(name) != null)
                 throw new Exception("Роль с таким именем уже существует");
@@ -68,7 +68,7 @@ namespace Autoris.BLL.Controllers
         /// <param name="email">Email</param>
         /// <param name="roleName">Название роли</param>
         [HttpPost]
-        public async void AddUser(string name, string lastName, string login, string password, string email, string roleName)
+        public async Task AddUser(string name, string lastName, string login, string password, string email, string roleName)
         {
             var role = _roleRepository.GetRole(roleName);
             if (role == null)
@@ -110,7 +110,7 @@ namespace Autoris.BLL.Controllers
                 throw new ArgumentNullException("Пароль не введен");
 
             //Получаем пользователя по логину
-            User user = _userRepository.GetByLogin(login);
+            User user = await _userRepository.GetByLogin(login);
 
 
             //проверяем, есть ли пользователь
@@ -154,10 +154,11 @@ namespace Autoris.BLL.Controllers
         [Authorize(Roles = "Администратор")]
         [HttpGet]
         [Route("user")]
-        public UserViewModel GetUser(string login)
+        public async Task<UserViewModel> GetUser(string login)
         {
-            var users = _userRepository.GetAll();
-            var user = users.Where(u => u.Login == login).FirstOrDefault();
+            if(string.IsNullOrEmpty(login))
+                throw new ArgumentNullException("Логин не задан")
+            var user = await _userRepository.GetByLogin(login);
             if (user == null)
                 throw new ArgumentException($"Пользователь {login} не найден");
 
